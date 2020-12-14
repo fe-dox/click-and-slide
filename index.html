@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Click and Slide</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, serif;
+            outline-style: none;
+            user-select: none;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        a:active {
+            color: inherit;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        a:visited {
+            color: inherit
+        }
+
+        a:hover {
+            color: inherit;
+        }
+
+        .no-focusBorder:focus {
+            outline-style: none;
+        }
+
+        button {
+            background: revert;
+            color: revert;
+        }
+
+        label {
+            padding-right: 5px;
+        }
+
+        input {
+            font-weight: bold;
+            background: inherit;
+            color: inherit;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-bottom: solid white 1px;
+        }
+
+        puzzle-element {
+            display: block;
+            z-index: 100;
+        }
+
+        .image {
+            width: 128px;
+            height: 128px;
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+
+        .has-big-padding-top {
+            padding-top: 30px;
+        }
+
+        hr {
+            width: 80%;
+        }
+
+        #game-area {
+            position: absolute;
+            width: 512px;
+            height: 512px;
+            background: black;
+            top: 256px;
+            left: calc(50% - 256px);
+            align-content: center;
+        }
+
+        #game-info {
+            position: absolute;
+            width: 30%;
+            height: 100%;
+            background: black;
+            left: 0;
+            top: 0;
+            text-align: center;
+            color: white;
+        }
+
+        #bestResultsList {
+            list-style: none;
+        }
+
+        .container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .images {
+            white-space: nowrap;
+            place-content: center;
+            width: 128px;
+            height: 128px;
+            max-width: 128px;
+            max-height: 128px;
+            overflow: hidden;
+            margin-left: calc(50% - 64px);
+            margin-bottom: 10px;
+        }
+
+    </style>
+    <script type="module" src="./build/main.js" defer></script>
+</head>
+<body>
+<div>
+    <div id="slider" class="images">
+        <img src="img/image0.jpg" class="image" alt="1">
+        <img src="img/image1.jpg" class="image" alt="2">
+        <img src="img/image2.jpg" class="image" alt="3">
+        <img src="img/image3.jpg" class="image" alt="4">
+        <img src="img/image4.jpg" class="image" alt="5">
+        <img src="img/image5.jpg" class="image" alt="6">
+        <img src="img/image6.jpg" class="image" alt="1">
+    </div>
+    <div>
+        <button id="prevImage"><-</button>
+        <button id="nextImage">-></button>
+    </div>
+    <br>
+    <div id="buttonsGameMode">
+    </div>
+</div>
+<div class="container">
+    <div id="game-area"></div>
+</div>
+<div id="game-info">
+    <h1>GAME INFO</h1>
+    <label for="playerNameInput">Your Name:</label><input type="text" name="name" id="playerNameInput"
+                                                          class="no-focusBorder">
+    <div class="has-big-padding-top"></div>
+    <div id="timer"></div>
+    <div class="has-big-padding-top"></div>
+    <h1>BEST RESULTS <span id="bestResultsListMode"></span></h1>
+    <div id="buttonsBestResults"></div>
+    <hr>
+    <ul id="bestResultsList">
+    </ul>
+    <div class="has-big-padding-top"></div>
+    <hr>
+    <div class="has-big-padding-top"></div>
+    <h1>Image source</h1>
+    <p id="photoSource">
+    </p>
+    <p>Go and check out his / her other works!</p>
+
+</div>
+</body>
+</html>
