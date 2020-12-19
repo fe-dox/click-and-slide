@@ -23,29 +23,38 @@ let timer;
 let currentImage = 6;
 
 (function () {
-    const nextImageButton = document.getElementById("nextImage");
-    const previousImageButton = document.getElementById("prevImage");
+    const nextImageButton = document.getElementById("nextImage") as HTMLButtonElement;
+    const previousImageButton = document.getElementById("prevImage") as HTMLButtonElement;
     const sliderDiv = document.getElementById("slider");
     const imageSourceP = document.getElementById("photoSource");
     imageSourceP.innerHTML = PHOTO_SOURCES[currentImage];
 
-    nextImageButton.addEventListener('click', () => {
+    // TODO: Refactor - similar functions
+    nextImageButton.addEventListener('click', async () => {
+        nextImageButton.disabled = true;
+        previousImageButton.disabled = true;
         if (currentImage == NUMBER_OF_LAST_IMAGE) {
             currentImage = 0;
-            scrollToImage(sliderDiv, 0, 1);
+            await scrollToImage(sliderDiv, 0, 1);
         }
         currentImage++;
-        scrollToImage(sliderDiv, currentImage * IMAGE_WIDTH, IMAGE_WIDTH);
+        await scrollToImage(sliderDiv, currentImage * IMAGE_WIDTH, IMAGE_WIDTH);
+        nextImageButton.disabled = false;
+        previousImageButton.disabled = false;
         imageSourceP.innerHTML = PHOTO_SOURCES[currentImage];
     });
 
-    previousImageButton.addEventListener('click', () => {
+    previousImageButton.addEventListener('click', async () => {
+        previousImageButton.disabled = true;
+        nextImageButton.disabled = true;
         if (currentImage == 0) {
             currentImage = NUMBER_OF_LAST_IMAGE;
-            scrollToImage(sliderDiv, NUMBER_OF_LAST_IMAGE * IMAGE_WIDTH, 1);
+            await scrollToImage(sliderDiv, NUMBER_OF_LAST_IMAGE * IMAGE_WIDTH, 1);
         }
         currentImage--;
-        scrollToImage(sliderDiv, currentImage * IMAGE_WIDTH, IMAGE_WIDTH);
+        await scrollToImage(sliderDiv, currentImage * IMAGE_WIDTH, IMAGE_WIDTH);
+        previousImageButton.disabled = false;
+        nextImageButton.disabled = false;
         imageSourceP.innerHTML = PHOTO_SOURCES[currentImage];
     });
 
@@ -134,20 +143,23 @@ function changeLeaderboard(mode: number) {
     }
 }
 
-function scrollToImage(scrollElement: HTMLElement, desiredScrollPosition: number, numberOfFrames: number) {
-    if (numberOfFrames < 1) throw new Error("Argument numberOfFrames out of range");
-    let currentScrollPosition = scrollElement.scrollLeft;
-    let difference = desiredScrollPosition - currentScrollPosition;
-    let stepValue = difference / numberOfFrames;
-    let currentFrame = 1;
+async function scrollToImage(scrollElement: HTMLElement, desiredScrollPosition: number, numberOfFrames: number) {
+    return new Promise((resolve) => {
+        if (numberOfFrames < 1) throw new Error("Argument numberOfFrames out of range");
+        let currentScrollPosition = scrollElement.scrollLeft;
+        let difference = desiredScrollPosition - currentScrollPosition;
+        let stepValue = difference / numberOfFrames;
+        let currentFrame = 1;
 
-    function doScroll() {
-        scrollElement.scrollTo(currentScrollPosition + stepValue * currentFrame, 0);
-        currentFrame++;
-        if (currentFrame <= numberOfFrames) window.requestAnimationFrame(doScroll);
-    }
+        function doScroll() {
+            scrollElement.scrollTo(currentScrollPosition + stepValue * currentFrame, 0);
+            currentFrame++;
+            if (currentFrame <= numberOfFrames) window.requestAnimationFrame(doScroll); else resolve();
+        }
 
-    doScroll();
+        doScroll();
+    });
+
 }
 
 type bestResults = {
