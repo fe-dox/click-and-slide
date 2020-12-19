@@ -91,7 +91,10 @@ async function startGame(mode: number, imageNumber: number) {
             bestResults[mode.toString()] = [];
         }
         // @ts-ignore
-        let playerName = document.getElementById("playerNameInput").value;
+        let playerName = document.getElementById("playerNameInput").value as string;
+        if (playerName.length > 10) {
+            playerName = playerName.slice(0, 10) + "...";
+        }
         bestResults[mode.toString()].push({
             name: !playerName ? "No Name" : playerName,
             time: duration

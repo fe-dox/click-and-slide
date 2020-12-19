@@ -3,7 +3,7 @@ import {ElementPosition, XYPosition} from './ElementPosition.js';
 
 export default class Puzzle {
     private _puzzleState: PuzzleState = PuzzleState.Initialized;
-    private _missingElement: Element;
+    private readonly _missingElement: Element;
     private _currentlyEmptyPosition: ElementPosition;
     private readonly _dimensions: number;
     private readonly _gameTable: Element[][] = [];
@@ -13,6 +13,13 @@ export default class Puzzle {
     private _onVictory: Function;
     private _startTime: Date;
 
+    /**
+     * Constructor
+     * @param dimensions number
+     * @param mountPoint HTMLElement
+     * @param imageSize number
+     * @param imageUrl string
+     */
     constructor(dimensions: number, mountPoint: HTMLElement, imageSize: number, imageUrl: string) {
         if (!window.customElements.get('puzzle-element'))
             window.customElements.define('puzzle-element', Element);
